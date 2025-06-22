@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getLatestArticles, getArticlesByCategory } from '@/lib/data';
+import { getLatestArticlesSync, getArticlesByCategorySync } from '@/lib/data';
 import { NewsArticle } from '@/types';
 import ArticleCard from '@/components/ArticleCard';
 import CategoryFilter from '@/components/CategoryFilter';
@@ -16,8 +16,8 @@ export default function HomePage() {
     const fetchArticles = async () => {
       setLoading(true);
       const fetchedArticles = selectedCategory 
-        ? getArticlesByCategory(selectedCategory)
-        : getLatestArticles();
+        ? getArticlesByCategorySync(selectedCategory)
+        : getLatestArticlesSync();
       setArticles(fetchedArticles);
       setLoading(false);
     };

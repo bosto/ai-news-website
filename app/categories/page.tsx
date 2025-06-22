@@ -1,4 +1,4 @@
-import { newsCategories, getArticlesByCategory } from '@/lib/data';
+import { newsCategories, getArticlesByCategorySync } from '@/lib/data';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
@@ -17,7 +17,7 @@ export default function CategoriesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {newsCategories.map((category) => {
-          const articlesInCategory = getArticlesByCategory(category.slug);
+          const articlesInCategory = getArticlesByCategorySync(category.slug);
           
           return (
             <Link

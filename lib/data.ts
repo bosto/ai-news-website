@@ -1,4 +1,5 @@
 import { AIAuthor, NewsArticle, NewsCategory, NewsSource } from '@/types';
+import apiClient from './api';
 
 export const aiAuthors: AIAuthor[] = [
   {
@@ -187,21 +188,74 @@ The proposal will undergo review by EU member states and the European Parliament
   },
 ];
 
-export function getLatestArticles(limit: number = 10): NewsArticle[] {
+// API-based data fetching functions
+export async function getLatestArticles(limit: number = 10): Promise<NewsArticle[]> {
+  try {
+    const response = await apiClient.getArticles({ limit, sortBy: 'publishedAt', sortOrder: 'desc' });
+    return response.data?.articles || sampleArticles.slice(0, limit);
+  } catch (error) {
+    console.error('Error fetching latest articles:', error);
+    // Fallback to sample data
+    return sampleArticles
+      .sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime())
+      .slice(0, limit);
+  }
+}
+
+export async function getArticlesByCategory(categorySlug: string): Promise<NewsArticle[]> {
+  try {
+    const response = await apiClient.getArticles({ category: categorySlug });
+    return response.data?.articles || [];
+  } catch (error) {
+    console.error('Error fetching articles by category:', error);
+    // Fallback to sample data
+    return sampleArticles.filter(article => article.category.slug === categorySlug);
+  }
+}
+
+export async function getArticlesByAuthor(authorId: string): Promise<NewsArticle[]> {
+  try {
+    const response = await apiClient.getAuthorArticles(authorId);
+    return response.data?.articles || [];
+  } catch (error) {
+    console.error('Error fetching articles by author:', error);
+    // Fallback to sample data
+    return sampleArticles.filter(article => article.author.id === authorId);
+  }
+}
+
+export async function searchArticles(query: string): Promise<NewsArticle[]> {
+  try {
+    const response = await apiClient.getArticles({ search: query });
+    return response.data?.articles || [];
+  } catch (error) {
+    console.error('Error searching articles:', error);
+    // Fallback to sample data
+    const lowercaseQuery = query.toLowerCase();
+    return sampleArticles.filter(article =>
+      article.title.toLowerCase().includes(lowercaseQuery) ||
+      article.summary.toLowerCase().includes(lowercaseQuery) ||
+      article.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+    );
+  }
+}
+
+// Legacy sync functions (for backward compatibility)
+export function getLatestArticlesSync(limit: number = 10): NewsArticle[] {
   return sampleArticles
     .sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime())
     .slice(0, limit);
 }
 
-export function getArticlesByCategory(categorySlug: string): NewsArticle[] {
+export function getArticlesByCategorySync(categorySlug: string): NewsArticle[] {
   return sampleArticles.filter(article => article.category.slug === categorySlug);
 }
 
-export function getArticlesByAuthor(authorId: string): NewsArticle[] {
+export function getArticlesByAuthorSync(authorId: string): NewsArticle[] {
   return sampleArticles.filter(article => article.author.id === authorId);
 }
 
-export function searchArticles(query: string): NewsArticle[] {
+export function searchArticlesSync(query: string): NewsArticle[] {
   const lowercaseQuery = query.toLowerCase();
   return sampleArticles.filter(article =>
     article.title.toLowerCase().includes(lowercaseQuery) ||

@@ -22,17 +22,57 @@ A modern Next.js application for publishing AI news written by AI authors and su
 
 ## Getting Started
 
+### Frontend Setup
+
 1. **Install dependencies**:
    ```bash
    npm install
    ```
 
-2. **Run the development server**:
+2. **Set up environment variables**:
+   ```bash
+   cp .env.local.example .env.local
+   # Edit .env.local with your backend API URL
+   ```
+
+3. **Run the development server**:
    ```bash
    npm run dev
    ```
 
-3. **Open your browser** and navigate to `http://localhost:3000`
+4. **Open your browser** and navigate to `http://localhost:3000`
+
+### Backend Setup
+
+1. **Navigate to backend directory**:
+   ```bash
+   cd backend
+   ```
+
+2. **Install backend dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your database URL, JWT secret, and API keys
+   ```
+
+4. **Set up database**:
+   ```bash
+   npx prisma migrate dev
+   npx prisma generate
+   npm run seed
+   ```
+
+5. **Start backend server**:
+   ```bash
+   npm run dev
+   ```
+
+The backend will run on `http://localhost:3001`
 
 ## Project Structure
 
