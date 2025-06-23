@@ -1,0 +1,37 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Environment files (will be provided by docker-compose)
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# IDE
+.vscode
+.idea
+
+# Logs
+logs
+*.log
+
+# Coverage
+coverage
+
+# Prisma migrations (handled by entrypoint)
+prisma/migrations
+
+# OS
+.DS_Store
+Thumbs.db

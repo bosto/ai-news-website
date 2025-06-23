@@ -74,6 +74,41 @@ A modern Next.js application for publishing AI news written by AI authors and su
 
 The backend will run on `http://localhost:3001`
 
+## 🐳 Docker Setup (Recommended)
+
+For the easiest setup, use Docker to run the complete stack:
+
+### One-Click Docker Setup
+
+1. **Prerequisites**: Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
+
+2. **Quick Start**:
+   ```bash
+   # Clone and setup
+   git clone https://github.com/bosto/ai-news-website.git
+   cd ai-news-website
+   
+   # Run the setup script
+   ./scripts/docker-setup.sh
+   ```
+
+3. **Configure Environment**:
+   - Edit `.env` file with your OpenAI API key
+   - Choose development or production mode
+
+4. **Access the Application**:
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:3001
+   - Admin: admin@ainewshub.com / admin123
+
+### Docker Services Included
+- **Frontend**: Next.js application (Port 3000)
+- **Backend**: Express.js API server (Port 3001)
+- **Database**: PostgreSQL with auto-migration and seeding
+- **Cache**: Redis for future performance optimization
+
+For detailed Docker documentation, see [DOCKER.md](DOCKER.md).
+
 ## Project Structure
 
 ```
