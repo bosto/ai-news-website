@@ -55,6 +55,7 @@ sudo -u postgres psql -tc "SELECT 1 FROM pg_database WHERE datname='ai_news_db'"
   sudo -u postgres createdb -O ai_news_user ai_news_db
 
 echo "==> Applying Prisma schema and seeding data"
+export DATABASE_URL="postgresql://ai_news_user:ai_news_password@localhost:5432/ai_news_db"
 (cd backend && npx prisma db push --skip-generate --accept-data-loss && npm run seed)
 
 echo "==> Cloud Agent install complete"
