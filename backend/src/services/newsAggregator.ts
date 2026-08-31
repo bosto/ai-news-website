@@ -15,13 +15,24 @@ export interface ExternalArticle {
 
 export class NewsAggregator {
   private rssParser: Parser;
-  private openai: OpenAI;
+  private _openai: OpenAI | null = null;
 
   constructor() {
     this.rssParser = new Parser();
-    this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
+  }
+
+  // Lazily instantiate the OpenAI client so the app can boot without an API key.
+  // The key is only required when news aggregation actually runs.
+  private get openai(): OpenAI {
+    if (!this._openai) {
+      if (!process.env.OPENAI_API_KEY) {
+        throw new Error(
+          'OPENAI_API_KEY is not set. It is required for news aggregation but optional for running the API.'
+        );
+      }
+      this._openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    }
+    return this._openai;
   }
 
   async aggregateNews(): Promise<void> {
