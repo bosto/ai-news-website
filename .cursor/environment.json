@@ -1,0 +1,16 @@
+{
+  "name": "AI News Website",
+  "install": "bash scripts/cloud-install.sh",
+  "start": "bash scripts/cloud-start.sh",
+  "terminals": [
+    {
+      "name": "backend",
+      "command": "cd backend && npm run dev"
+    },
+    {
+      "name": "frontend",
+      "command": "npm run dev"
+    }
+  ],
+  "ports": [3000, 3001]
+}

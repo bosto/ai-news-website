@@ -23,7 +23,7 @@ model User {
 
 model AIAuthor {
   id             String    @id @default(cuid())
-  name           String
+  name           String    @unique
   bio            String
   avatar         String?
   specialization String[]
@@ -74,7 +74,7 @@ model Article {
 model NewsSource {
   id            String        @id @default(cuid())
   name          String
-  url           String
+  url           String        @unique
   rssUrl        String?
   logoUrl       String?
   isActive      Boolean       @default(true)
